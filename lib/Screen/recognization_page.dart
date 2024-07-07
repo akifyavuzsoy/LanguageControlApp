@@ -104,9 +104,9 @@ class _RecognizePageState extends State<RecognizePage> {
       var sheet = excel.tables[table];
       for (var row in sheet!.rows) {
         for (var cell in row) {
-          if (cell != null && cell.value.toString().contains("Riscaldamento")) {
-            log('${cell.value}');
-          }
+          //if (cell != null && cell.value.toString().contains("Riscaldamento")) {
+            //log('${cell.value}');
+          //}
           if (cell != null && cell.value.toString() == recognizedText) {
             log('Eşleşen veri bulundu: ${cell.value}');
             setState(() {
