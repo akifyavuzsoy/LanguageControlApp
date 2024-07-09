@@ -84,45 +84,45 @@ class _RecognizePageState extends State<RecognizePage> {
   }
 
   void compareTextWithExcel() async {
-    // Alınan text
     log(controller.text);
     String recognizedText = controller.text;
 
     setState(() {
-      isMatchFound = false; // Eşleşme bulunmadı, durumu güncelle
-      isComparisonDone = false; // Karşılaştırma yapılıyor
+      isMatchFound = false;
+      isComparisonDone = false;
     });
 
     ByteData data = await rootBundle.load('assets/languages.xlsx');
     var bytes = data.buffer.asUint8List();
 
-    // Excel'i aç
     var excel = Excel.decodeBytes(bytes);
 
-    // Excel dosyasındaki verileri karşılaştırma
     for (var table in excel.tables.keys) {
       var sheet = excel.tables[table];
       for (var row in sheet!.rows) {
         for (var cell in row) {
-          //if (cell != null && cell.value.toString().contains("Riscaldamento")) {
-            //log('${cell.value}');
-          //}
           if (cell != null && cell.value.toString() == recognizedText) {
             log('Eşleşen veri bulundu: ${cell.value}');
             setState(() {
-              isMatchFound = true; // Eşleşme bulundu, durumu güncelle
-              isComparisonDone = true; // Karşılaştırma tamamlandı
+              isMatchFound = true;
+              isComparisonDone = true;
+              // 3. sütunun mevcut olup olmadığını kontrol et ve null değilse değeri al
+              if (row.length > 6 && row[6] != null) {
+                controller.text += '\n\n\n\n${row[6]!.value.toString()}';        // For Turkish translate
+              } else {
+                controller.text += '\n\n\n\nTürkçe karşılığı bulunamadı...';
+              }
             });
-            break; // Eşleşme bulunduğunda döngüyü kır
+            break;
           }
         }
-        if (isMatchFound) break; // Eşleşme bulunduğunda döngüyü kır
+        if (isMatchFound) break;
       }
-      if (isMatchFound) break; // Eşleşme bulunduğunda döngüyü kır
+      if (isMatchFound) break;
     }
 
     setState(() {
-      isComparisonDone = true; // Karşılaştırma tamamlandı
+      isComparisonDone = true;
     });
   }
 }
