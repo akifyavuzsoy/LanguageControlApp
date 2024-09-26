@@ -1,6 +1,6 @@
 # flutter_ocr
 
-A new Flutter project.
+A new Flutter project by Akif Yavuzsoy.
 
 ## Getting Started
 
